@@ -13,7 +13,8 @@ mkdirSync(outDir, { recursive: true });
 
 // entry.png sits next to this program in the repository.
 // The copy is a plain byte-for-byte transfer: no re-encode, no resize,
-// no metadata rewrite — the output file is identical to the source.
+// no metadata rewrite — the output file is identical to the source,
+// bit for bit, every single time.
 // Run it twice and diff the two outputs: they are the same bytes.
 // No randomness, no timestamps, no network — the entry is fully reproducible.
 const here = fileURLToPath(new URL(".", import.meta.url));
