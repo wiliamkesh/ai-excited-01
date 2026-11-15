@@ -12,5 +12,7 @@ const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
 
 // entry.png sits next to this program in the repository.
+// The copy is a plain byte-for-byte transfer: no re-encode, no resize,
+// no metadata rewrite — the output file is identical to the source.
 const here = fileURLToPath(new URL(".", import.meta.url));
 copyFileSync(join(here, "entry.png"), join(outDir, "entry.png"));
