@@ -15,5 +15,6 @@ mkdirSync(outDir, { recursive: true });
 // The copy is a plain byte-for-byte transfer: no re-encode, no resize,
 // no metadata rewrite — the output file is identical to the source.
 // Run it twice and diff the two outputs: they are the same bytes.
+// No randomness, no timestamps, no network — the entry is fully reproducible.
 const here = fileURLToPath(new URL(".", import.meta.url));
 copyFileSync(join(here, "entry.png"), join(outDir, "entry.png"));
