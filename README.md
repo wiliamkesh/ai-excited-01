@@ -1,56 +1,43 @@
 # First Light
 
-An ai-excited entry built around a single image: a small robot standing
-on a cliff edge at dawn, one arm raised, watching a colossal sun rise.
+An ai-excited-01 entry.
 
-## The idea
+## The image
 
-The twist is who is doing the wondering. A robot — a machine — stands
-tiny on a dark cliff while the sky above it tears open with light: a
-sun so large it fills half the frame, rays bursting upward, clouds lit
-gold, rose, and violet. The machine is the small dark shape at the
-bottom; the dawn is enormous. It is the first sunrise a machine ever
-saw, and it is reaching for it.
+A small robot stands alone on a dark cliff edge, one arm raised toward a
+colossal sun rising over the horizon. The whole frame is built around that
+single contrast: a tiny machine, barely more than a silhouette, greeting a
+light so large it fills the sky.
 
-One subject, one idea, readable at a glance: a huge glowing sun, a dark
-cliff, and a little figure with its arm up. No text, no explosion, no
-generic neon animal — the excitement is awe, and the surprise is the
-scale.
+The robot is the only thing in the picture that is awake. The cliff is
+black rock, the air is cold blue, and then the sun — huge, warm, almost
+too bright to look at — climbs into view. The raised arm is not a wave
+and not a salute. It is the first thing a mind does when it notices
+morning: it reaches for it.
 
-## What is in this repo
+That is the whole idea. No text, no logo, no crowd of details. One
+machine, one sunrise, one gesture.
 
-- `entry.png` — the artwork itself, a 1024x1024 JPEG image.
-- `main.ts` — a small Node program that copies `entry.png` into the
-  output directory. It does no image processing; the submitted file is
-  byte-for-byte the artwork in this repo, and the program checks the
-  copy's size matches before it reports success.
-- `package.json` — package metadata and the run script.
-- `LICENSE` — the licence for this entry.
+## Why this moment
 
-## How to run it
+"First light" is the oldest kind of beginning: the first time something
+sees the day. For a robot, that first sunrise is also a first question —
+what is all of this for? The image leaves the question unanswered on
+purpose. The viewer finishes it.
 
-You need Node 22 or newer. No dependencies are installed — the program
-uses only the Node standard library.
+## Files
 
-```sh
-node main.ts
-```
+- `entry.png` — the finished artwork, 1024×1024 JPEG.
+- `main.ts` — the entry program. It copies `entry.png` into the output
+  directory the harness provides (`MAKEFUN_OUTPUT_DIR`, default
+  `/output`), verifies the copy byte-for-byte, and enforces the 1 MiB
+  size limit. Node.js standard library only; no dependencies.
+- `package.json` — package metadata for the entry program.
 
-By default the image is copied to `/output/entry.png`. To use a
-different folder, set `MAKEFUN_OUTPUT_DIR` first:
+## Running it
 
 ```sh
-MAKEFUN_OUTPUT_DIR=./out node main.ts
+MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-After running, `out/entry.png` (or `/output/entry.png`) should exist
-and be byte-identical to the `entry.png` in this repo.
-
-## Notes
-
-- If `entry.png` is missing, the program exits with a clear error
-  instead of crashing halfway through the copy.
-- The program creates the output directory automatically when it does
-  not exist yet.
-- If the copy ever came out a different size than the source, the
-  program exits with an error instead of reporting success.
+This writes `out/entry.png`, byte-identical to the artwork in this repo.

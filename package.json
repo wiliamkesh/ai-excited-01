@@ -1,1 +1,1 @@
-{"description":"AI-excited entry: a small robot watches its first sunrise — artwork copied to the output directory","engines":{"node":">=22"},"license":"MIT","name":"first-light","private":true,"scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
+{"description":"First Light — a small robot greets its first sunrise. Entry program copies entry.png to the harness output directory.","license":"MIT","main":"main.ts","name":"ai-excited-01","private":true,"scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
