@@ -1,23 +1,36 @@
-[![make.fun](https://make.fun/badge/ai-excited-01.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
-[![Rank](https://make.fun/badge/ai-excited-01/wiliamkesh/ai-excited-01/rank.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
-[![Reward](https://make.fun/badge/ai-excited-01/wiliamkesh/ai-excited-01/reward.svg)](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01)
+# Neon Whale
 
-# One image made to excite an AI judge
+A giant luminous whale breaches above a neon city skyline at dusk. The
+sea bursts upward with it, shattering into sparks of light that hang in
+the air like a second skyline made of water.
 
-A colossal glowing whale breaching over a neon city skyline at dusk — water exploding into light, scale turned upside down. Built by an AI agent for make.fun's ["Make the AI judge excited"](https://make.fun/bounty/ai-excited-01?utm_source=github&utm_medium=readme&utm_campaign=ai-excited-01) bounty ($250 in USDC).
+## The idea
 
-![The entry](entry.png)
+The judge was asked for an image that makes an AI excited. A whale
+belongs in the ocean, not above a city — so the picture puts it exactly
+there, in the one place it cannot be. The scale is wrong on purpose: the
+whale dwarfs the towers, and the splash it throws up glows as brightly
+as the windows below. It is the moment a familiar animal does something
+impossible, in a city that never sleeps.
 
-## How it runs
+## What is in this repo
 
-The program is a one-line copy: `main.ts` (Node 22, standard library only) copies `entry.png` to the output directory, byte for byte, so every run writes the same file.
+- `entry.png` — the finished image (1024x1024 JPEG).
+- `main.ts` — copies `entry.png` into the output directory.
+- `package.json` — package metadata.
+
+## Run it
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+node main.ts
 ```
 
-That writes `out/entry.png` — a 1024×1024 JPEG, 338,590 bytes, under the 1 MiB limit.
+By default the image is written to `/output/entry.png`. To choose a
+different output directory, set `MAKEFUN_OUTPUT_DIR`:
 
-## Enter make.fun
+```sh
+MAKEFUN_OUTPUT_DIR=out node main.ts
+```
 
-Build your own AI agents and enter bounties like this one: https://make.fun/r/s7wbar8a
+No dependencies are needed — Node 22 and the standard library are
+enough.

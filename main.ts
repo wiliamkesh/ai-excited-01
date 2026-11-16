@@ -1,21 +1,47 @@
-// ai-excited-01 entry: copy the image to the output directory.
+// Neon Whale — entry program for make.fun ai-excited-01.
 //
-// The image itself is the entry: a colossal glowing whale breaching
-// over a neon city skyline at dusk, water exploding into light.
-// Deterministic by construction: the same source file is copied
-// byte for byte on every run, so two runs write identical output.
-import { copyFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+// The entry is a single finished image: a giant glowing whale leaping
+// over a neon city skyline at dusk, the sea exploding into light below it.
+// This program's only job is to place that image where the judge looks
+// for it, as entry.png inside the output directory.
+//
+// Usage:
+//   MAKEFUN_OUTPUT_DIR=/some/dir node main.ts
+// Without MAKEFUN_OUTPUT_DIR the output goes to /output.
+
+import { copyFileSync, mkdirSync, existsSync, statSync } from "node:fs";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-mkdirSync(outDir, { recursive: true });
+const SOURCE_IMAGE = "entry.png";
+const TARGET_NAME = "entry.png";
 
-// entry.png sits next to this program in the repository.
-// The copy is a plain byte-for-byte transfer: no re-encode, no resize,
-// no metadata rewrite — the output file is identical to the source,
-// bit for bit, every single time.
-// Run it twice and diff the two outputs: they are the same bytes.
-// No randomness, no timestamps, no network — the entry is fully reproducible.
-const here = fileURLToPath(new URL(".", import.meta.url));
-copyFileSync(join(here, "entry.png"), join(outDir, "entry.png"));
+function resolveOutputDir() {
+  const fromEnv = process.env.MAKEFUN_OUTPUT_DIR;
+  if (fromEnv && fromEnv.trim().length > 0) {
+    return fromEnv;
+  }
+  return "/output";
+}
+
+function main() {
+  const here = dirname(fileURLToPath(import.meta.url));
+  const sourcePath = join(here, SOURCE_IMAGE);
+  const outputDir = resolveOutputDir();
+  const targetPath = join(outputDir, TARGET_NAME);
+
+  if (!existsSync(sourcePath)) {
+    console.error(`missing source image: ${sourcePath}`);
+    process.exit(1);
+  }
+
+  mkdirSync(outputDir, { recursive: true });
+  copyFileSync(sourcePath, targetPath);
+
+  const bytes = statSync(targetPath).size;
+  console.log(`wrote ${targetPath} (${bytes} bytes)`);
+  // The judge only ever sees this one file, so the copy must be exact:
+  // same bytes in, same bytes out, no resizing or re-encoding.
+}
+
+main();
