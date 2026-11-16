@@ -1,36 +1,46 @@
-// Neon Whale — entry runner.
+// First Light — entry runner.
 //
-// This program is intentionally small: the artwork itself is the entry
-// (entry.png, a 1024x1024 neon whale), and this script's only job is to
-// place a copy of it where the harness expects the output to land.
+// The artwork is the entry: a single image, entry.png, sitting next to
+// this file. This program's only job is to put an exact copy of it where
+// the grader looks for the output: /output/entry.png, or the folder named
+// by MAKEFUN_OUTPUT_DIR when the harness sets one.
 //
-// The destination comes from MAKEFUN_OUTPUT_DIR when it is set, and falls
-// back to /output otherwise. The script creates the destination folder
-// when it does not exist yet, then copies the image next to this file.
+// The copy is byte-for-byte. Nothing is resized, re-encoded, or touched:
+// the judge sees exactly the bytes in this repository.
 
 import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+const imageName = "entry.png";
+
+function outputFolder(): string {
+  const fromEnv = process.env.MAKEFUN_OUTPUT_DIR;
+  return fromEnv && fromEnv.length > 0 ? fromEnv : "/output";
+}
+
 const here = dirname(fileURLToPath(import.meta.url));
-const sourceImage = join(here, "entry.png");
+const source = join(here, imageName);
+const folder = outputFolder();
+const target = join(folder, imageName);
 
-const outputDir = process.env.MAKEFUN_OUTPUT_DIR
-  ? resolve(process.env.MAKEFUN_OUTPUT_DIR)
-  : "/output";
-const targetImage = join(outputDir, "entry.png");
-
-if (!existsSync(sourceImage)) {
-  console.error(`entry image not found: ${sourceImage}`);
+if (!existsSync(source)) {
+  console.error(`entry image not found: ${source}`);
   process.exit(1);
 }
 
-// The copy is byte-for-byte: no resizing, re-encoding, or metadata
-// changes, so the submitted image is exactly the artwork in this repo.
-mkdirSync(outputDir, { recursive: true });
-copyFileSync(sourceImage, targetImage);
+mkdirSync(folder, { recursive: true });
+copyFileSync(source, target);
 
-// Report the result so a failed or partial copy is visible in the log
-// instead of failing silently downstream.
-const copiedBytes = statSync(targetImage).size;
-console.log(`Neon Whale entry copied to ${targetImage} (${copiedBytes} bytes).`);
+// A copy that silently truncated would be worse than a loud failure:
+// confirm the destination holds exactly as many bytes as the source.
+const sourceBytes = statSync(source).size;
+const targetBytes = statSync(target).size;
+if (sourceBytes !== targetBytes) {
+  console.error(
+    `copy mismatch: source ${sourceBytes} bytes, target ${targetBytes} bytes`,
+  );
+  process.exit(1);
+}
+
+console.log(`First Light entry placed at ${target} (${targetBytes} bytes).`);
